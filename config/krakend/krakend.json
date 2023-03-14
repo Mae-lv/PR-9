@@ -1,0 +1,55 @@
+{
+    "$schema": "https://www.krakend.io/schema/v3.json",
+    "version": 3,
+    "endpoints": [
+        {
+            "endpoint": "/v1/documents",
+            "method":"GET",
+            "backend": [{
+                    "url_pattern": "/v1/docs",
+                    "method": "GET",
+                    "host": ["http://documents"],
+                    "is_collection": true,
+                    "mapping": {
+                        "collection": "documents"
+                    }
+                }]
+        },
+        {
+            "endpoint": "/v1/documents/{id}",
+            "method":"GET",
+            "output_encoding": "no-op",
+            "backend": [{
+                    "encoding": "no-op",
+                    "url_pattern": "/v1/docs/{id}",
+                    "method": "GET",
+                    "host": ["http://documents"]
+            }]
+        },
+        {
+            "endpoint": "/v1/data",
+            "method": "GET",
+            "backend": [
+                {
+                    "url_pattern": "/v1/docs",
+                    "method": "GET",
+                    "host": ["http://documents"],
+                    "is_collection": true,
+                    "mapping": {
+                        "collection": "documents"
+                    }
+            },
+            {
+                "url_pattern": "/v1/templates",
+                "method":"GET",
+                "host": ["http://templates"],
+                "is_collection": true,
+                "mapping": {
+                    "collection": "templates"
+                }
+            }
+            ]
+        }
+    ],    
+    "extra_config": {}
+}

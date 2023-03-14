@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  documents:
+    build: ./documents_service
+    ports:
+      - 8000:80
+
+  templates:
+    build: ./templates_service
+    ports:
+      - 8001:80
+
+  krakend_ce:
+    image: devopsfaith/krakend:watch
+    volumes:
+      - ./config/krakend:/etc/krakend
+    ports:
+      - "8080:8080"
+    command: ["run", "-d", "-c", "/etc/krakend/krakend.json"]
+    depends_on:
+      - documents
+      - templates
